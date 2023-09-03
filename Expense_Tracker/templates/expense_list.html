@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Expense{% endblock title %}
+
+{% block breadcrumb %}
+<a class="btn btn-primary" href="{% url 'add_expense' %}"><i
+    class="fas fa-plus"></i> Add Expense</a>
+
+{% endblock breadcrumb %}
+
+{% block content %}
+  <div class="table-responsive">
+    <table id="expensetable" class="table table-bordered table-hover" data-page-length='100'>
+      <thead class="thead-light">
+        <tr>
+          <th>S/N</th>
+          <th>Expense Category</th>
+          <th>Expense Amount</th>
+          <th>Description</th>
+          <th>Date of expense</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for expense in expenses %}
+          <tr class='clickable-row' data-href="#">  
+            <td>{{ forloop.counter}}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.amount}}</td>
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.date }}</td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
+
+
+{% block morejs %}
+<script>
+  $('#expensetable').DataTable({
+  });
+</script>
+
+{% endblock morejs %}
