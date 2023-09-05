@@ -25,7 +25,7 @@ class AddExpenseView(LoginRequiredMixin,View):
             return redirect('expense_list')
         return render(request, self.template_name, {'form': form})
     
-# @login_required
+
 class ExpenseListView(LoginRequiredMixin,ListView):
     template_name = 'expense_list.html'
 
@@ -33,7 +33,7 @@ class ExpenseListView(LoginRequiredMixin,ListView):
         expenses = Expense.objects.filter(user=request.user)
         return render(request, self.template_name, {'expenses': expenses})
 
-# @login_required   
+  
 class ExpenseCategory(LoginRequiredMixin,View):
     template_name = 'expense_category.html'
     form_class = ExpenseCategoryForm

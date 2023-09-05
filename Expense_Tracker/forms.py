@@ -10,7 +10,7 @@ class ExpenseForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'amount': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control','type':'date'}),
         }
         
 
