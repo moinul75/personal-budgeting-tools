@@ -11,13 +11,14 @@ class User(AbstractBaseUser,PermissionsMixin):
     last_name = models.CharField(max_length=150,blank=True)
     address = models.CharField(max_length=250,null=True,blank=True)
     phone = models.CharField(max_length=20,null=True,blank=True)
-    profile_picture = models.ImageField(upload_to='profile/',null=True,blank=True)    
+    profile_picture = models.ImageField(upload_to='profile/',null=True,blank=True) 
+    
     
     #required fields 
     date_joined = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = CustomUserManager()
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'

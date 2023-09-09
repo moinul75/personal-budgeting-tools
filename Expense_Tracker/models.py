@@ -10,6 +10,14 @@ class Expence_category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    
+    def total_expense(self):
+        total = 0
+        expenses = Expense.objects.filter(category=self)
+        for expense in expenses:
+            total += expense.amount
+        return total
+    
     def __str__(self):
         return self.category_name
     

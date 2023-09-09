@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %} Expense Statistics {% endblock title %}
+{% block content %}
+<div class="container">
+    <form class="form-inline" method="get">
+        <div class="form-group">
+            <label for="date_range_option" class="mr-2">Date Range:</label>
+            <select class="form-control" id="date_range_option" name="date_range_option">
+                <option value="this_month">This Month</option>
+                <option value="monthly_wise">Monthly Wise</option>
+                <option value="total_wise">Total Wise</option>
+            </select>
+        </div>
+        <div class="form-group mx-2">
+            <label for="start_date" class="mr-2">Start Date:</label>
+            <input type="date" class="form-control" id="start_date" name="start_date">
+        </div>
+        
+        <div class="form-group mx-2">
+            <label for="end_date" class="mr-2">End Date:</label>
+            <input type="date" class="form-control" id="end_date" name="end_date">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </form>
+
+    <div class="mt-5">
+        <p>date_range_option: {{ date_range_option }}</p>
+        <p>start_date: {{ start_date }}</p>
+        <p>end_date: {{ end_date }}</p>
+
+        <h5>
+            {% if date_range_option == 'this_month' %}
+                Your search result for the period from {{ start_date|date:"F Y" }} to {{ end_date|date:"F Y" }} shows below:
+            {% elif date_range_option == 'monthly_wise' %}
+                Your search result for the period from {{ start_date|date:"F Y" }} to {{ end_date|date:"F Y" }} shows below:
+            {% else %}
+                Your search result shows below:
+            {% endif %}
+        </h5>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="row my-5">
+        <div class="col-md-6">
+            <div class="bg-white">
+                <canvas id="myChart1" width="400" height="300"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="bg-white">
+                <canvas id="myChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    // Create an array to store the category names and their corresponding total expenses
+    var chartData = {
+        labels: [{% for cat in expense_cat %}"{{ cat.category_name }}",{% endfor %}],
+        values: [{% for cat in expense_cat %}{{ cat.total_expenses }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        colors: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(25, 99, 132, 1)',
+            'rgba(112, 162, 235, 1)',
+            'rgba(25, 206, 86, 1)',
+            'rgba(45, 12, 192, 1)',
+            'rgba(13, 255, 255, 1)',
+            'rgba(25, 59, 84, 14)',
+        ],
+    };
+
+    var ctx1 = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Category Expenses',
+                data: chartData.values,
+                backgroundColor: chartData.colors,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return chartData.labels[context.dataIndex] + ': $' + chartData.values[context.dataIndex].toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    var ctx2 = document.getElementById('myChart').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Category Expenses',
+                data: chartData.values,
+                backgroundColor: chartData.colors,
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return chartData.labels[context.dataIndex] + ': $' + chartData.values[context.dataIndex].toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Total Expenses</th>
+            <th>Highest Expense</th>
+            <th>Lowest Expense</th>
+            <th>Budget Goal</th>
+            <th>Budget Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat in expense_cat %}
+            <tr>
+                <td>{{ cat.category_name }}</td>
+                <td>{{ cat.total_expenses }} BDT</td>
+                <td>{{ cat.highest_expense }} BDT</td>
+                <td>{{ cat.lowest_expense }} BDT</td>
+                <td>{{ cat.budget_goal }} BDT</td>
+                <td>
+                    {% if cat.budget_status >= 0 %}
+                        <strong class="bg-success text-white">Goal Achieved</strong>
+                    {% else %}
+                        <strong class="bg-danger text-white">Goal Not Achieved</strong>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

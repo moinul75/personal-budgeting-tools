@@ -1,0 +1,73 @@
+{% extends 'authbase.html' %}
+{% load static %}
+{% block title %}Sign Up|Personal Budgeting Tools{% endblock title %}
+{% block content %}
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" style="width: 400px; margin-top: 200px;">
+                <img src="{% static 'dist/img/budget.jpg' %}">
+            </div>
+
+            <form class="login100-form" method="POST">
+                {% csrf_token %}
+                <span class="login100-form-title">
+                    Personal Budgeting Tools
+                </span>
+                <span class="error-msg">
+                    {{ form.non_field_errors }}
+                </span>
+                <p>Please Sign Up to use this page.</p>
+            
+                {% for field in form %}
+                    <div class="wrap-input100 validate-input">
+                        {{ field }}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            {% if field.name == 'email' %}
+                             <i class="fa fa-envelope" aria-hidden="true"></i>
+                            {% elif field.name == 'username' %}
+                             <i class="fa fa-user" aria-hidden="true"></i>
+                            {% elif field.name == 'address' %}
+                             <i class="fa fa-address-book" aria-hidden="true"></i>
+                            {% elif field.name == 'phone' %}
+                             <i class="fa fa-phone" aria-hidden="true"></i>
+                            {% elif field.name == 'password1' %}
+                                 <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% elif field.name == 'password2' %}
+                             <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% else %}
+                             <!-- Handle other fields or add default behavior -->
+                            {% endif %}
+                        </span>
+                        <span class="error-msg">
+                            {{ field.errors }}
+                        </span>
+                    </div>
+                {% endfor %}
+            
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">
+                        Signup
+                    </button>
+                </div>
+            
+                <div class="text-center p-t-12">
+                    <span class="txt1">Forgot</span>
+                    <a class="txt2" href="#">Username / Password?</a>
+                </div>
+            </form>
+            
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}
+
+
