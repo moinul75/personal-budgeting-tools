@@ -8,37 +8,22 @@
             <select class="form-control" id="date_range_option" name="date_range_option">
                 <option value="this_month">This Month</option>
                 <option value="monthly_wise">Monthly Wise</option>
-                <option value="total_wise">Total Wise</option>
             </select>
         </div>
-        <div class="form-group mx-2">
+        <div class="form-group mx-2" id="start_date_group"style="display: none;">
             <label for="start_date" class="mr-2">Start Date:</label>
-            <input type="date" class="form-control" id="start_date" name="start_date">
+            <input type="date" required class="form-control" id="start_date" name="start_date">
         </div>
         
-        <div class="form-group mx-2">
+        <div class="form-group mx-2" id="end_date_group"style="display: none;">
             <label for="end_date" class="mr-2">End Date:</label>
-            <input type="date" class="form-control" id="end_date" name="end_date">
+            <input type="date" required class="form-control" id="end_date" name="end_date">
         </div>
         
-        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="submit" class="btn btn-primary ml-5">Apply</button>
     </form>
 
-    <div class="mt-5">
-        <p>date_range_option: {{ date_range_option }}</p>
-        <p>start_date: {{ start_date }}</p>
-        <p>end_date: {{ end_date }}</p>
-
-        <h5>
-            {% if date_range_option == 'this_month' %}
-                Your search result for the period from {{ start_date|date:"F Y" }} to {{ end_date|date:"F Y" }} shows below:
-            {% elif date_range_option == 'monthly_wise' %}
-                Your search result for the period from {{ start_date|date:"F Y" }} to {{ end_date|date:"F Y" }} shows below:
-            {% else %}
-                Your search result shows below:
-            {% endif %}
-        </h5>
-    </div>
+   
     
     
     
@@ -60,6 +45,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Create an array to store the category names and their corresponding total expenses
     var chartData = {
@@ -141,6 +127,34 @@
             }
         }
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var dateRangeOption = document.getElementById("date_range_option");
+        var startDateGroup = document.getElementById("start_date_group");
+        var endDateGroup = document.getElementById("end_date_group");
+    
+        // Function to show or hide start and end date fields based on the selected option
+        function toggleDateFields() {
+            if (dateRangeOption.value === "this_month") {
+                startDateGroup.style.display = "none";
+                endDateGroup.style.display = "none";
+            } else if (dateRangeOption.value === "monthly_wise") {
+                startDateGroup.style.display = "block";
+                endDateGroup.style.display = "block";
+            }
+        }
+    
+        // Initial setup
+        toggleDateFields();
+    
+        // Handle change event of the date_range_option select box
+        dateRangeOption.addEventListener("change", toggleDateFields);
+    });
+    
+
+
+
+    
 </script>
 
 <table class="table table-bordered table-striped">

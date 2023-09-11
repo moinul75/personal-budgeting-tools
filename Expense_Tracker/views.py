@@ -146,11 +146,7 @@ def expense_stats(request):
         else:
             start_date = datetime.now().replace(day=1)
             end_date = datetime.now()
-    elif date_range_option == 'total_wise':
-        # You can implement logic to select a custom date range for "total_wise" here
-        # For example, you can parse start_date and end_date from query parameters
-        pass
-
+   
     monthly_stats = []  # Initialize it here
 
     if date_range_option == 'monthly_wise':

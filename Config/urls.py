@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('accounts.urls')),
     path('expense/',include('Expense_Tracker.urls')),
+    path('income/',include('Income_Management.urls')),
 ]
 
 if settings.DEBUG:

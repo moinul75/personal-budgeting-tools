@@ -2,7 +2,7 @@
 {% block title %} Add Income {% endblock title %}
 {% block content %}
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form  method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     
     {% for field in form %}
@@ -27,12 +27,5 @@
     </div>
     {% endfor %}
     
-    <input type="submit" class="btn btn-primary" value="Add Expense">
+    <input type="submit" class="btn btn-primary" value="Add Income">
 </form>
-
-
-
-{% endblock content %}
-
-
-

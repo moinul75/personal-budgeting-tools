@@ -15,4 +15,10 @@ class IncomeSourceForm(forms.ModelForm):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Income
-        fields = ['']
+        fields = ['source','amount','description','date']
+        widgets = {
+            'source':forms.Select(attrs={'class':'form-control'}),
+            'amount':forms.TextInput(attrs={'class':'form-control'}),
+            'description':forms.Textarea(attrs={'class':'form-contol'}),
+            'date':forms.DateInput(attrs={'type':'date','class':'form-control'})
+        }

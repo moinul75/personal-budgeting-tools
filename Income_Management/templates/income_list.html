@@ -1,0 +1,53 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Income {% endblock title %}
+
+{% block breadcrumb %}
+<a class="btn btn-primary" href="{% url 'add_income' %}"><i
+    class="fas fa-plus"></i> Add Income</a>
+
+{% endblock breadcrumb %}
+
+{% block content %}
+  <div class="table-responsive">
+    {% if not incomes %}
+     <h1> There is no income list to show</h1>
+    {% else %}
+    
+    <table id="expensetable" class="table table-bordered table-hover" data-page-length='100'>
+      <thead class="thead-light">
+        <tr>
+          <th>S/N</th>
+          <th>Income Source</th>
+          <th>Income Amount</th>
+          <th>Description</th>
+          <th>Date of Income</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for income in incomes %}
+          <tr class='clickable-row' data-href="#">  
+            <td>{{ forloop.counter}}</td>
+            <td>{{ income.source }}</td>
+            <td>{{ income.amount}} ৳</td>
+            <td>{{ income.description }}</td>
+            <td>{{ income.date }}</td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+{% endblock content %}
+
+
+{% block morejs %}
+<script>
+  $('#expensetable').DataTable({
+  });
+</script>
+
+{% endblock morejs %}
